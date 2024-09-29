@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from IPython.display import display, HTML
+import ipywidgets as widgets
+from IPython.display import display
 
 
 class HelperClass:
@@ -91,3 +93,33 @@ class HelperClass:
 
         # Display the formatted output
         display(HTML(html_model_output))
+
+    def PremiumPredictorWidget(this):
+        # Create a number input for age
+        age_input = widgets.IntSlider(value=30, min=18, max=100, description='Age:')
+        # Create a number input for BMI
+        bmi_input = widgets.FloatSlider(value=25.0, min=10.0, max=50.0, description='BMI:')
+        # Create a number input for children
+        children_input = widgets.IntSlider(value=0, min=0, max=10, description='Children:')
+        # Create a button to trigger prediction
+        predict_button = widgets.Button(description='Predict Premium')
+
+        # Output widget to display prediction results
+        prediction_output = widgets.Output()
+
+        # Define the prediction function
+        def predict_premium(button):
+            age = age_input.value
+            bmi = bmi_input.value
+            children = children_input.value
+            # Here, replace with your model's prediction logic
+            predicted_premium = age * 100 + bmi * 20 + children * 500  # Example logic
+            with prediction_output:
+                prediction_output.clear_output()
+                print(f'Predicted Insurance Premium: ${predicted_premium:.2f}')
+
+        # Attach the prediction function to the button click event
+        predict_button.on_click(predict_premium)
+
+        # Display all widgets
+        display(age_input, bmi_input, children_input, predict_button, prediction_output)
